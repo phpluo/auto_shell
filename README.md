@@ -1,7 +1,8 @@
 # auto_mute
 The speaker automatically goes silent at work（company）
+macbook 到公司自动禁音
 
-
+添加计划任务
 crontab -e 
-
-*/1 * * * * sh /Users/phpluo/opt/auto_sh/close_volume.sh
+xxxx 换成自己的路径
+*/1 * * * * sh xxxx/close_volume.sh
