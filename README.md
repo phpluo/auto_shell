@@ -1,6 +1,7 @@
-# auto_mute
+# auto_shell
 The speaker automatically goes silent at work（company）
 macbook 到公司自动禁音
+自动根据WIFi切换网络位置
 
 ### 添加计划任务
 `crontab -e `
