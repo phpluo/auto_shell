@@ -21,7 +21,7 @@ else
 	LOCATION=$Location_Automatic;
 fi
 # 如果当前网络位置和需要修改的一样则 什么都不需要做
-if [ "$current_location" = "$LOCATION" ]; then
+if [[ "$current_location" = "$LOCATION" ]]; then
 	echo '无需操作'
     exit
 fi
