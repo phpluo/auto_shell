@@ -3,7 +3,7 @@
 # author: phpluo<phpluo@gmail.com>
 # version: 0.1.0
 
-# 指定要连接的 Wi-Fi 名称和位置名称
+# 指定要连接的 Wi-Fi 名称和位置名称 首先需要自己先建好位置
 wifi_name="xhhd888_5G_"
 LOCATION_OFFICE="office" #公司的位置
 LOCATION_OTHER="other" #其他的位置 公司之外
