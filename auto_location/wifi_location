@@ -3,22 +3,10 @@
 # author: phpluo<phpluo@gmail.com>
 # version: 0.1.0
 
-# 获取当前时间的小时
-HOUR=$(date +%H)
-
-# 检查是否在指定时间范围内早上8，9点 下午 67点 如果你下班早可以加上5点
-# 如果使用Alfred 关键词激活则不需要下面时间这段代码
-if ([ $HOUR -eq 8 ] || [ $HOUR -eq 9 ]) || ([ $HOUR -eq 18 ] || [ $HOUR -eq 19 ]); then
-  echo "现在是指定的时间范围内"
-else
-  echo "现在不在指定的时间范围内"
-  # osascript -e 'display notification "现在不在指定的时间范围内" with title "不在执行范围"'
-  exit 0
-fi
-
 # 指定要连接的 Wi-Fi 名称和位置名称
 wifi_name="xhhd888_5G_"
-LOCATION_NAME="office" #公司的位置
+LOCATION_OFFICE="office" #公司的位置
+LOCATION_OTHER="other" #其他的位置 公司之外
 
 # 获取当前连接的 Wi-Fi 名称
 current_wifi=$(networksetup -getairportnetwork en0 | awk '{print $4}')
@@ -27,16 +15,19 @@ current_wifi=$(networksetup -getairportnetwork en0 | awk '{print $4}')
 current_location=$(networksetup -getcurrentlocation)
 
 # 如果当前连接的 Wi-Fi 名称与指定的名称相同，并且当前位置不是指定的位置，则修改位置
-if [[ "$current_wifi" == "$wifi_name" && "$current_location" != "$LOCATION_NAME" ]]
+if [[ "$current_wifi" == "$wifi_name" && "$current_location" != "$LOCATION_OFFICE" ]]
 then
-    networksetup -switchtolocation "$LOCATION_NAME"
-    echo "网络位置已更改为 $LOCATION_NAME"
+    networksetup -switchtolocation "$LOCATION_OFFICE"
+    echo "网络位置已更改为 $LOCATION_OFFICE"
   # 发送通知
-  osascript -e 'display notification "网络位置已更改为 '$LOCATION_NAME'" with title "网络位置已更新"'
+  osascript -e 'display notification "当前WIFI为 '$current_wifi'，网络位置为 '$LOCATION_OFFICE'" with title "网络位置已更新为办公"'
+  exit;
+fi
 
-else
-	# 无需修改 调试 发送通知
-  # osascript -e 'display notification "当前WIFI为 '$wifi_name'，网络为'$LOCATION_NAME'" with title "网络位置无需修改"'
-  echo "Current Wi-Fi is not $wifi_name or current location is already $LOCATION_NAME"
+# WIFI不是办公室 但是位置却是办公室 则修改位置为自动
+if [[ $current_location == $LOCATION_OFFICE ]]; then
+    networksetup -switchtolocation "$LOCATION_OTHER"
+    echo "网络位置已更改为 其他[$current_location]"
+    osascript -e 'display notification "当前'$current_location'WIFI为 '$current_wifi'，网络为其他" with title "'$current_location'网络位置已修改为其他"'
 fi
 
