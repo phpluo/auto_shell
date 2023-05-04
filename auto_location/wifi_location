@@ -3,7 +3,7 @@
 # author: phpluo<phpluo@gmail.com>
 # version: 0.1.0
 
-# 指定要连接的 Wi-Fi 名称和位置名称 首先需要自己先建好位置
+# 指定要连接的 Wi-Fi 名称和位置名称
 wifi_name="xhhd888_5G_"
 LOCATION_OFFICE="office" #公司的位置
 LOCATION_OTHER="other" #其他的位置 公司之外
@@ -21,11 +21,10 @@ then
     echo "网络位置已更改为 $LOCATION_OFFICE"
   # 发送通知
   osascript -e 'display notification "当前WIFI为 '$current_wifi'，网络位置为 '$LOCATION_OFFICE'" with title "网络位置已更新为办公"'
-  exit;
 fi
 
-# WIFI不是办公室 但是位置却是办公室 则修改位置为自动
-if [[ $current_location == $LOCATION_OFFICE ]]; then
+# # WIFI不是办公室  则修改位置为自动
+if [[ "$current_wifi" != "$wifi_name" ]]; then
     networksetup -switchtolocation "$LOCATION_OTHER"
     echo "网络位置已更改为 其他[$current_location]"
     osascript -e 'display notification "当前'$current_location'WIFI为 '$current_wifi'，网络为其他" with title "'$current_location'网络位置已修改为其他"'
